@@ -260,3 +260,20 @@ The analysis generates:
 - **Create a web interface**: Build interactive dashboard for analysis and visualization
 - **Add email notifications**: Alert users when new "Exceptional Deals" are found
 - **Cross-reference verification**: Validate prices across multiple platforms before calculating deal scores
+
+## Development Status
+
+### Implementation Tracking
+
+This table serves as a control document for tracking implementation progress:
+
+| Task ID | Feature | Description | Status | Priority | Notes |
+|---------|---------|-------------|--------|----------|-------|
+| 1 | Reverb API Integration | Core API integration for market price fetching | Complete | High | MVP feature |
+| 2 | `test_reverb_api.py` Script | Test script for API configuration validation | Not Started | High | Quick win |
+| 3 | Additional API Sources | Integration with eBay and Sweetwater APIs | Not Started | Medium | Enhances data confidence |
+| 4 | Enhanced Search Algorithm | NLP-based text matching for better results | Not Started | Medium | Technical challenge |
+| 5 | Deal Visualizations | Charts and graphs for deal analysis | In Progress | Medium | Started with basic plots |
+| 6 | Error Logging | Comprehensive error handling for API failures | Not Started | High | Reliability feature |
+| 7 | Unit Tests | Test suite for calculation accuracy | Not Started | Medium | Quality assurance |
+| 8 | Brand/Model Recognition | Advanced parsing for better market matching | Not Started | Low | Advanced feature |
