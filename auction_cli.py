@@ -105,22 +105,66 @@ def main():
             item = item_details.iloc[0]
             print(f"Description: {item['description']}")
             print(f"Category: {item['category']}")
-            print(f"Retail Price: ${item['retail_price']}")
-            print(f"Starting Bid: ${item['starting_bid']}")
-            print(f"Market Price: ${item['market_price']:.2f}")
-            print(f"Optimal Price: ${item['optimal_price']:.2f}")
-            print(f"Deal Score: {item['deal_score']:.1f}%")
-            print(f"Deal Rating: {item['deal_rating']}")
             
-            # Show similar items
+            # Price Information
+            print("\nPrice Information:")
+            retail_price = f"${item['retail_price']:.2f}" if not pd.isna(item['retail_price']) else "$0.00"
+            starting_bid = f"${item['starting_bid']:.2f}" if not pd.isna(item['starting_bid']) else "$0.00"
+            print(f"Retail Price: {retail_price}")
+            print(f"Starting Bid: {starting_bid}")
+            
+            # Market Data from Reverb
+            print("\nMarket Data (Reverb):")
+            market_price = f"${item['market_price']:.2f}" if not pd.isna(item['market_price']) else "$0.00"
+            median_price = f"${item['median_price']:.2f}" if not pd.isna(item['median_price']) else "$0.00"
+            min_price = f"${item['min_price']:.2f}" if not pd.isna(item['min_price']) else "$0.00"
+            max_price = f"${item['max_price']:.2f}" if not pd.isna(item['max_price']) else "$0.00"
+            print(f"Average Market Price: {market_price}")
+            print(f"Median Price: {median_price}")
+            print(f"Price Range: {min_price} - {max_price}")
+            print(f"Number of Listings: {item['listing_count']}")
+            print(f"Most Common Condition: {item['top_condition'] if not pd.isna(item['top_condition']) else 'Unknown'}")
+            print(f"Data Source: {item['source_type']}")
+            
+            # Analysis
+            print("\nDeal Analysis:")
+            optimal_price = f"${item['optimal_price']:.2f}" if not pd.isna(item['optimal_price']) else "$0.00"
+            deal_score = f"{item['deal_score']:.1f}%" if not pd.isna(item['deal_score']) else "0.0%"
+            data_confidence = f"{item['data_confidence']}%" if not pd.isna(item['data_confidence']) else "0%"
+            
+            print(f"Optimal Price: {optimal_price}")
+            print(f"Deal Score: {deal_score}")
+            print(f"Deal Rating: {item['deal_rating']}")
+            print(f"Data Confidence: {data_confidence}")
+            print(f"Market Volatility: {item['market_volatility']}")
+            
+            # Market vs Retail
+            if not pd.isna(item['retail_market_gap']):
+                gap_value = abs(item['retail_market_gap'])
+                gap_str = f"{gap_value:.1f}%"
+                
+                if item['retail_market_gap'] > 0:
+                    print(f"\nRetail price is {gap_str} above market value")
+                elif item['retail_market_gap'] < 0:
+                    print(f"\nRetail price is {gap_str} below market value")
+                else:
+                    print("\nRetail price matches market value")
+            else:
+                print("\nInsufficient data to compare retail and market prices")
+            
+            # Show similar items with enhanced market data
             print("\nSimilar items in same category:")
             similar = analyzer.con.execute(f"""
                 SELECT 
                     item_number, 
                     description, 
                     starting_bid,
+                    market_price,
+                    median_price,
+                    listing_count,
                     deal_score,
-                    deal_rating
+                    deal_rating,
+                    data_confidence
                 FROM deal_analysis 
                 WHERE 
                     category = '{item['category']}' AND 

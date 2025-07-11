@@ -88,9 +88,18 @@ class MarketScraper:
         if not refresh_cache and cache_key in self.price_cache:
             cached_data = self.price_cache[cache_key]
             # Check if cache is still valid based on expiry setting
-            cache_date = datetime.fromisoformat(cached_data.get("timestamp"))
-            if datetime.now() - cache_date < timedelta(days=self.cache_expiry_days):
-                return cached_data
+            timestamp = cached_data.get("timestamp")
+            if timestamp:
+                # Ensure timestamp is a string before parsing
+                if not isinstance(timestamp, str):
+                    timestamp = str(timestamp)
+                try:
+                    cache_date = datetime.fromisoformat(timestamp)
+                    if datetime.now() - cache_date < timedelta(days=self.cache_expiry_days):
+                        return cached_data
+                except (ValueError, TypeError):
+                    # If timestamp parsing fails, continue to fetch new data
+                    pass
         
         # Try Reverb API first if token exists
         result = None
