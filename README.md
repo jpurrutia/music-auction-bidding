@@ -25,45 +25,196 @@ This project analyzes music instrument auction data to identify optimal prices a
 1. **Data Parsing**: The system reads auction listings and extracts structured data
 2. **Market Research**: For each item, the system queries multiple sources to determine fair market value
 3. **Deal Scoring**: Each item receives a deal score based on the difference between starting bid and optimal price
-4. **Categorization**: Items are classified as "Great Deal", "Good Deal", "Fair Deal", or "Overpriced"
+4. **Categorization**: Items are classified into deal quality tiers based on score and data confidence
 5. **Visualization**: Results are presented in both tabular and graphical formats
+
+## Market Price Research Methodology
+
+### Reverb API Integration
+
+This system integrates with the [Reverb API](https://www.reverb.com/page/api) to fetch real-time market data for musical instruments. The process works as follows:
+
+1. **Search Query Formation**:
+   - The item description is cleaned and formatted for API compatibility
+   - Special characters are removed and spaces are encoded
+   - Search prioritizes exact matches on brand names and model numbers
+
+2. **API Request & Authentication**:
+   - Requests are sent to Reverb's REST API endpoint using a personal OAuth Bearer token
+   - Requests include appropriate headers and pagination parameters
+   - Rate limiting is respected to avoid API usage restrictions
+
+3. **Response Processing**:
+   - JSON responses are parsed to extract listing details, prices, and conditions
+   - Statistical calculations are performed (average, median, minimum, maximum)
+   - Condition breakdowns are compiled to assess value distribution
+   - Sample listings are stored for reference
+
+4. **Caching System**:
+   - API responses are cached locally to minimize redundant API calls
+   - Default cache expiry is 7 days (configurable)
+   - Timestamps validate cache freshness
+   - Cache uses item descriptions as keys for quick retrieval
+
+5. **Fallback Mechanism**:
+   - If the API returns no results or encounters an error, the system falls back to simulated data
+   - Simulation uses a random normal distribution based on the retail price
+   - Simulated data is clearly marked as such in the output
+
+### Search Matching Confidence
+
+The system provides a confidence metric for market data reliability:
+
+| Listing Count | Confidence Level | Rationale |
+|--------------|-----------------|------------|
+| 20+ listings | 100% | Statistically significant sample size |
+| 10-19 listings | 80% | Good sample with minor statistical limitations |
+| 5-9 listings | 60% | Moderate sample with potential for outlier influence |
+| 1-4 listings | 40% | Limited data points, reduced statistical reliability |
+| 0 listings (simulation) | 20% | Entirely estimated data |
 
 ## Deal Scoring Logic
 
-The system calculates an optimal price using the following formula:
-```
+### Optimal Price Calculation
+
+The system calculates an optimal price by weighing market data and retail prices, with the weighting dynamically adjusted based on data confidence:
+
+```python
+# With high data confidence (many listings)
+optimal_price = (0.7 * market_price) + (0.3 * retail_price)
+
+# With moderate data confidence
 optimal_price = (0.6 * market_price) + (0.4 * retail_price)
+
+# With low data confidence (few or no listings)
+optimal_price = (0.4 * market_price) + (0.6 * retail_price)
 ```
 
-Deal scores are calculated as a percentage:
-```
+### Market Price Determination
+
+Market price is calculated based on data from Reverb API listings:
+
+1. For instruments with sufficient listings, we prioritize the **median price** rather than the average to reduce the impact of outliers
+2. When the market has high volatility (large price spread), we increase the weighting of retail price
+3. Condition breakdown affects price expectations (e.g., "Excellent" condition commands higher prices)
+
+### Deal Score Calculation
+
+Deal scores are calculated as a percentage discount from the optimal price:
+
+```python
 deal_score = ((optimal_price - starting_bid) / optimal_price) * 100
 ```
 
-Items are then categorized:
+### Enhanced Deal Rating System
+
+Items are categorized with a sophisticated rating system that considers both deal score and data confidence:
+
+- **Exceptional Deal**: Score ≥ 60% with high data confidence (5+ listings)
 - **Great Deal**: Score ≥ 50%
 - **Good Deal**: 30% ≤ Score < 50%
-- **Fair Deal**: 0% ≤ Score < 30%
+- **Fair Deal**: 15% ≤ Score < 30%
+- **Slight Deal**: 0% ≤ Score < 15%
 - **Overpriced**: Score < 0%
+
+### Market Volatility Assessment
+
+The system calculates price volatility as a percentage of the spread between minimum and maximum prices:
+
+```python
+volatility = ((max_price - min_price) / median_price) * 100
+```
+
+Volatility is categorized as:
+- **Low**: ≤ 20%
+- **Medium**: 20-50%
+- **High**: > 50%
+
+This volatility assessment helps users understand the stability of the market for that particular instrument type.
+
+## Reverb API Integration Setup
+
+### Setting Up API Access
+
+1. **Get a Reverb API Key**:
+   - Create a developer account at [Reverb Developer Portal](https://reverb.com/page/api)
+   - Generate a personal API token with read permissions
+   - Copy your API token for the next step
+
+2. **Configure Environment Variables**:
+   - Create a `.env` file in the project root based on the provided `.env.template`
+   - Add your Reverb API token to the configuration
+   ```
+   REVERB_API_TOKEN=your_token_here
+   USE_SANDBOX=false
+   CACHE_EXPIRY_DAYS=7
+   ```
+
+3. **Test the API Integration**:
+   - Run the included test script to validate your API setup
+   ```
+   python test_reverb_api.py
+   ```
+   - Successful results will show sample listings and price statistics
+
+### Caching System
+
+The market price data is cached to minimize API calls:
+
+- **Cache Location**: Data is stored in the `cache/` directory as JSON files
+- **Cache Key**: Each search query generates a unique cache key based on the item description
+- **Expiration**: Cache entries expire after the configured number of days (default: 7 days)
+- **Manual Refresh**: Force cache refresh by setting `refresh_cache=True` or deleting cache files
 
 ## Usage
 
 1. Ensure you have Python installed with the required dependencies:
    ```
-   pip install -r requirements.txt
+   uv venv  # Creates virtual environment
+   source .venv/bin/activate  # Activate the environment
+   uv pip install -r requirements.txt
    ```
 
-2. Run the basic analyzer:
+2. Run the analysis with the command-line interface:
    ```
-   python auction_analyzer.py
-   ```
-
-3. Run the enhanced DuckDB analyzer (includes visualizations):
-   ```
-   python duckdb_analyzer.py
+   python auction_cli.py --data-file data.txt summary
    ```
 
-4. Results will be exported to CSV files and visualizations will be saved as PNG files in the "results" directory.
+3. View top deals:
+   ```
+   python auction_cli.py top 10
+   ```
+
+4. Filter by category:
+   ```
+   python auction_cli.py category "Guitar"
+   ```
+
+5. View details for a specific item:
+   ```
+   python auction_cli.py item 42
+   ```
+
+## Interpreting the Results
+
+### Market Data Fields
+
+For each item, the system provides:
+
+- **Market Price**: Average price from current listings
+- **Median Price**: Middle value of all listing prices (more resistant to outliers)
+- **Price Range**: Minimum to maximum prices found in listings
+- **Listing Count**: Number of comparable items found
+- **Data Confidence**: Percentage indicating reliability of market data
+- **Market Volatility**: Assessment of price stability in the marketplace
+- **Source Type**: Whether data came from API or simulation
+
+### Deal Quality Indicators
+
+- **Deal Score**: Percentage discount from optimal price
+- **Deal Rating**: Categorical assessment from "Exceptional Deal" to "Overpriced"
+- **Value Percentage**: Starting bid as a percentage of optimal price
+- **Retail-Market Gap**: How retail price compares to current market value
 
 ## Extending This Project
 
@@ -90,7 +241,22 @@ The analysis generates:
 
 ## Future Improvements
 
-- Implement machine learning for price prediction
-- Add historical price tracking to identify trends
-- Create a web interface for interactive analysis
-- Add email notifications for newly listed "Great Deals"
+### Search and Matching Enhancements
+- **Multi-source Integration**: Implement parallel searches across eBay, Sweetwater, and other retailers
+- **Intelligent Query Generation**: Use NLP to extract key instrument features for better search matching
+- **Brand/Model Recognition**: Advanced parsing to identify brands and models from descriptions
+- **Condition Weighting**: Apply market adjustments based on condition categorization
+- **Image Recognition**: Add capability to identify instruments from images (long-term)
+
+### Calculation Refinements
+- **Implement machine learning for price prediction**: Train models on historical data to predict future prices
+- **Adaptive confidence algorithms**: Dynamically adjust confidence scores based on market history
+- **Brand-specific value retention**: Apply different depreciation models by manufacturer
+- **Condition impact analysis**: Quantify exact value differences between conditions
+- **Price trend analysis**: Factor in whether market prices are rising or falling
+
+### System Improvements
+- **Add historical price tracking**: Track market trends over time for each instrument category
+- **Create a web interface**: Build interactive dashboard for analysis and visualization
+- **Add email notifications**: Alert users when new "Exceptional Deals" are found
+- **Cross-reference verification**: Validate prices across multiple platforms before calculating deal scores
