@@ -4,3 +4,4 @@
 4. Calculate the optimal price for each item
 5. Create and update a readme as you iterate upon this and provide full documentation on key code and data components 
 6. run all commands in uv venv
+7. If there are steps in the README.md, run them in the order that they are listed
