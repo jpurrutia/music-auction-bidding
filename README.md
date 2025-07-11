@@ -277,3 +277,91 @@ This table serves as a control document for tracking implementation progress:
 | 6 | Error Logging | Comprehensive error handling for API failures | Not Started | High | Reliability feature |
 | 7 | Unit Tests | Test suite for calculation accuracy | Not Started | Medium | Quality assurance |
 | 8 | Brand/Model Recognition | Advanced parsing for better market matching | Not Started | Low | Advanced feature |
+| 9 | Market Data Enrichment | Additional data sources and enriched market info | Not Started | Medium | Data quality improvement |
+
+### Detailed Task Breakdown
+
+Detailed subtasks for immediate implementation:
+
+#### Task 2: Create `test_reverb_api.py` Script
+- [ ] Create basic script structure with command-line arguments
+- [ ] Implement environment variable loading (.env file support)
+- [ ] Add API connection test function
+- [ ] Create sample search query function
+- [ ] Implement result display formatting
+- [ ] Add error handling for common API issues
+- [ ] Write usage documentation in script comments
+
+#### Task 5: Deal Visualizations
+- [ ] Create price comparison bar charts (retail vs. market vs. optimal)
+- [ ] Implement deal score distribution histogram
+- [ ] Add scatter plot of deal score vs. data confidence
+- [ ] Create category-based deal distribution chart
+- [ ] Add market volatility visualization
+- [ ] Implement interactive visualization options
+- [ ] Add automatic chart saving to results directory
+
+#### Task 6: Error Logging
+- [ ] Implement structured logging system
+- [ ] Add API request/response logging
+- [ ] Implement rate limiting detection and handling
+- [ ] Create error categorization system
+- [ ] Add fallback mechanisms for all API operations
+- [ ] Implement configurable log levels
+- [ ] Add log rotation and management
+
+#### Task 7: Unit Tests
+- [ ] Create basic test framework setup
+- [ ] Implement market price calculation tests
+- [ ] Add deal scoring logic tests
+- [ ] Create API response parsing tests
+- [ ] Implement confidence calculation tests
+- [ ] Add mock API response fixtures
+- [ ] Create end-to-end test scenarios
+
+#### Task 3: Additional API Sources
+- [ ] Research eBay API requirements and endpoints
+- [ ] Implement eBay API authentication
+- [ ] Create eBay search function in market_scraper.py
+- [ ] Research Sweetwater scraping approach
+- [ ] Implement Sweetwater product search
+- [ ] Add Guitar Center API integration
+- [ ] Implement Thomann music store data source 
+- [ ] Research and add Musician's Friend price data
+- [ ] Create data normalization for cross-platform comparison
+- [ ] Implement weighted aggregation of prices from multiple sources
+- [ ] Update confidence calculation to consider multiple sources
+- [ ] Enhance caching for multiple data sources
+- [ ] Add source reliability scoring
+
+#### Task 4: Enhanced Search Algorithm
+- [ ] Implement basic text normalization (lowercase, remove special chars)
+- [ ] Add brand and model extraction from item descriptions
+- [ ] Create keyword importance weighting system
+- [ ] Implement fuzzy matching for similar instrument names
+- [ ] Add condition-aware matching
+- [ ] Implement price range filtering
+- [ ] Create confidence scoring for search match quality
+- [ ] Add fallback search strategies for zero-result queries
+
+#### Task 8: Brand/Model Recognition
+- [ ] Create dictionary of known instrument brands
+- [ ] Implement regex patterns for common model number formats
+- [ ] Create training dataset of instrument descriptions with labeled brands/models
+- [ ] Implement rule-based brand and model extraction
+- [ ] Add context-aware model number identification
+- [ ] Create fuzzy brand name matching
+- [ ] Add year/vintage extraction from descriptions
+- [ ] Implement special edition/limited edition recognition
+
+#### Task 9: Market Data Enrichment
+- [ ] Add historical price tracking database
+- [ ] Implement price trend analysis (rising/falling markets)
+- [ ] Add condition impact modeling (price adjustments by condition)
+- [ ] Create item rarity assessment system
+- [ ] Implement seasonal market fluctuation tracking
+- [ ] Add brand value retention modeling
+- [ ] Implement geographical price difference analysis
+- [ ] Create product lifecycle stage identification
+- [ ] Add popular/trending item identification
+- [ ] Implement cross-category price comparison
