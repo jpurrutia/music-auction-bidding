@@ -270,7 +270,7 @@ This table serves as a control document for tracking implementation progress:
 | Task ID | Feature | Description | Status | Priority | Notes |
 |---------|---------|-------------|--------|----------|-------|
 | 1 | Reverb API Integration | Core API integration for market price fetching | Complete | High | MVP feature |
-| 2 | `test_reverb_api.py` Script | Test script for API configuration validation | Not Started | High | Quick win |
+| 2 | `test_reverb_api.py` Script | Test script for API configuration validation | Complete | High | Implemented with command-line options |
 | 3 | Additional API Sources | Integration with eBay and Sweetwater APIs | Not Started | Medium | Enhances data confidence |
 | 4 | Enhanced Search Algorithm | NLP-based text matching for better results | Not Started | Medium | Technical challenge |
 | 5 | Deal Visualizations | Charts and graphs for deal analysis | In Progress | Medium | Started with basic plots |
@@ -284,13 +284,13 @@ This table serves as a control document for tracking implementation progress:
 Detailed subtasks for immediate implementation:
 
 #### Task 2: Create `test_reverb_api.py` Script
-- [ ] Create basic script structure with command-line arguments
-- [ ] Implement environment variable loading (.env file support)
-- [ ] Add API connection test function
-- [ ] Create sample search query function
-- [ ] Implement result display formatting
-- [ ] Add error handling for common API issues
-- [ ] Write usage documentation in script comments
+- [x] Create basic script structure with command-line arguments
+- [x] Implement environment variable loading (.env file support)
+- [x] Add API connection test function
+- [x] Create sample search query function
+- [x] Implement result display formatting
+- [x] Add error handling for common API issues
+- [x] Write usage documentation in script comments
 
 #### Task 5: Deal Visualizations
 - [ ] Create price comparison bar charts (retail vs. market vs. optimal)
