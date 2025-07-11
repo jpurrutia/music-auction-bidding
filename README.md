@@ -283,10 +283,11 @@ This table serves as a control document for tracking implementation progress wit
 
 Based on current priorities, we're focusing on improving data quality and pricing calculation accuracy. With AI assistance, we can complete these priority tasks in approximately **5-8 days total** (compared to 12-17 days with manual development):
 
-1. **Task 3: Additional API Sources** (2-3 days with AI)
-   - Adding eBay API integration first to complement Reverb data with a broader marketplace
-   - Incorporating retail sources like Sweetwater for true MSRP comparisons
-   - Creating a cross-reference system to improve price confidence metrics
+1. **Task 3: Additional API Sources** (1.5-2 days with AI)
+   - Adding eBay API integration to complement Reverb with a broader general marketplace
+   - Incorporating Sweetwater as primary retail source for true MSRP benchmark pricing
+   - Leveraging Reverb Handpicked Collections for curated quality reference listings
+   - Creating a cross-reference system between these sources to improve price confidence
 
 2. **Task 4: Enhanced Search Algorithm** (1-2 days with AI)
    - Improving text matching to get more relevant market listings
@@ -340,20 +341,24 @@ Detailed subtasks for immediate implementation:
 - [ ] Add mock API response fixtures
 - [ ] Create end-to-end test scenarios
 
-#### Task 3: Additional API Sources (Manual: 5-7 days | With AI: 2-3 days)
+#### Task 3: Additional API Sources (Manual: 3-4 days | With AI: 1.5-2 days)
+
+##### Selected High-Value Sources
+- **eBay API**: Large secondary marketplace with diverse pricing (complementary to Reverb)
+- **Sweetwater**: Primary retail source for new instrument pricing (MSRP benchmark)
+- **Reverb Handpicked Collections**: Curated listings from Reverb for quality reference points
+
+##### Implementation Steps
 - [ ] Research eBay API requirements and endpoints (Manual: 0.5 day | AI: 2 hours)
 - [ ] Implement eBay API authentication (Manual: 0.5 day | AI: 3 hours)
 - [ ] Create eBay search function in market_scraper.py (Manual: 1 day | AI: 4 hours)
 - [ ] Research Sweetwater scraping approach (Manual: 0.5 day | AI: 2 hours)
 - [ ] Implement Sweetwater product search (Manual: 1 day | AI: 3 hours)
-- [ ] Add Guitar Center API integration (Manual: 1 day | AI: 3 hours)
-- [ ] Implement Thomann music store data source (Manual: 1 day | AI: 3 hours)
-- [ ] Research and add Musician's Friend price data (Manual: 0.5 day | AI: 2 hours)
-- [ ] Create data normalization for cross-platform comparison (Manual: 1 day | AI: 4 hours)
+- [ ] Extend Reverb API to access curated collections (Manual: 0.5 day | AI: 2 hours)
+- [ ] Create data normalization for cross-platform comparison (Manual: 0.5 day | AI: 3 hours)
 - [ ] Implement weighted aggregation of prices from multiple sources (Manual: 0.5 day | AI: 2 hours)
 - [ ] Update confidence calculation to consider multiple sources (Manual: 0.5 day | AI: 2 hours)
 - [ ] Enhance caching for multiple data sources (Manual: 0.5 day | AI: 2 hours)
-- [ ] Add source reliability scoring (Manual: 0.5 day | AI: 2 hours)
 
 #### Task 4: Enhanced Search Algorithm (Manual: 3-4 days | With AI: 1-2 days)
 - [ ] Implement basic text normalization (lowercase, remove special chars) (Manual: 0.5 day | AI: 1 hour)
