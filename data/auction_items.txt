@@ -1,0 +1,84 @@
+# Format: Item Description | Retail Price | Starting Bid
+# Add your actual auction items below this line
+
+1 Circa 1960's Gibson B-15 Acoustic Guitar w/ Chipboard Case Retail $1,500 Starting Bid $600
+2 1920's Gibson Style 1 Ukulele w/ Chipboard Case Retail $1,100 Starting Bid $500
+3 Gon Bops Conga Retail $200 Starting Bid $50
+4 T.C Electronics Nova Delay Retail $160 Starting Bid $50
+5 NOS Recording King Roundneck Resonator Retail $540 Starting Bid $250
+6 NOS Guild Polara "Kim Thayil" Electric Guitar Retail $1,250 Starting Bid $600
+7 NOS Tagima Stratocaster 'Lefty' Candy Apple Red Retail $280 Starting Bid $150
+8 NOS Austin White Jazz Bass Retail $340 Starting Bid $150
+9 Fender Aerodyne Jazz Bass w/ Hardshell Case Retail $1,300 Starting Bid $600
+10 New Cordoba Stage Electric Nylon Guitar w/ Bag Retail $800 Starting Bid $400
+11 New Recording King RPS-9 Parlor Acoustic Guitar Retail $340 Starting Bid $100
+12 The Loar LM 310 F-Style Mandolin Retail $570 Starting Bid $250
+13 Supro Dual Tone w/ Chipboard Case Retail $1,000 Starting Bid $500
+14 Epiphone Silver Burst SG Pro Retail $600 Starting Bid $200
+15 NOS Journey Instruments Cherry Sunburst Electric Guitar w/ Bag Retail $650 Starting Bid $300
+16 NOS Alvarez MD-60 Retail $1,050 Starting Bid $500
+17 NOS Gold Tone 12 String Acoustic Electric Mandolin w/ Case Retail $940 Starting Bid $400
+18 G&L USA Jazz Bass w/ Hipshot D'Tuner and Hardshell Case Retail $1,300 Starting Bid $600
+19 Yairi DY-73 w/ Case Retail $2,000 Starting Bid $1,000
+20 Epiphone Les Paul Tribute 'Lefty' Retail $300 Starting Bid $200
+21 New Stagg SA-35 'Lefty' Tobacco Burst Acoustic Retail $200 Starting Bid $100
+22 Vantage 960BA 6 String Bass Retail $800 Starting Bid $250
+23 New Austin Stat Style Candy Apple Red Electric Guitar Retail $225 Starting Bid $100
+24 PRS McCarty SE Single Cut w/ Bag Retail $950 Starting Bid $450
+25 Oscar Schmidt Baritone Ukulele Retail $300 Starting Bid $100
+26 Gretsch G2622 P90 Semi Hollow Electric Guitar Retail $600 Starting Bid $200
+27 NOS Alvarez CF6CE Classical Guitar Retail $890 Starting Bid $400
+28 New Austin Gold Top Les Paul Style Electric Guitar Retail $450 Starting Bid $200
+29 1990's Fernandes Purple Precision Jazz Style Bass Retail $500 Starting Bid $150
+30 NOS Ashdown Acoustic 100 Amplifier Retail $450 Starting Bid $200
+31 Douglas Harwell Dulcimer Retail $500 Starting Bid $200
+32 Boss MS-3 Multi Effects Switcher Retail $300 Starting Bid $100
+33 NOS Eastman SB-57 Black Les Paul Style Electric w/ Case Retail $3,300 Starting Bid $1,600
+34 Roland RE-501 Chorus Echo Retail $2,800 Starting Bid $1,000
+35 Electromuse Lap Steel w/ Bag Retail $500 Starting Bid $250
+36 1920's MIJ Coconut Ukulele w/ Chipboard Case Retail $300 Starting Bid $180
+37 Early 1960's Gibson Melody Maker Retail $2,500 Starting Bid $1,500
+38 New Calton Les Paul Hardshell Case Retail $1,500 Starting Bid $1,000
+39 MIJ Fender Bass VI w/ Bag Retail $3,000 Starting Bid $1,500
+40 Gretsch White Falcon Bass Package w/ Strap, Amp, and Case Retail $4,000 Starting Bid $2,000
+INTERMISSION
+41 Baby Taylor 'Lefty' Retail $400 Starting Bid $200
+42 1983 MIJ Boss Super Overdrive w/ Original Box Retail $300 Starting Bid $100
+43 NOS Gold Tone EBM4 Electric Tenor Banjo Retail $1,300 Starting Bid $400
+44 NOS Quilter Micro Pro Combo Retail $1,000 Starting Bid $500
+45 Minister Traveler Guitar w/ Bag Retail $170 Starting Bid $50
+46 Heritage H150 Standard Electric Guitar w/ Hardshell Case Retail $2,800 Starting Bid $1,250
+47 Deering Guitjo w/ Original Hardshell Case Retail $2,000 Starting Bid $1,000
+48 Martin LXM Tenor Guitar Retail $500 Starting Bid $200
+49 New Stagg SA-35 Acoustic Guitar Retail $330 Starting Bid $75
+50 Fulltone Deja Vibe Retail $250 Starting Bid $100
+51 Hagstrom Super Suede w/ Hardshell Case Retail $700 Starting Bid $300
+52 NOS Danelectro Triple Divine Retail $800 Starting Bid $300
+53 Ibanez Workshop Bass w/ Bag Retail $1,000 Starting Bid $300
+54 Fender Twin Amplifier Retail $1,000 Starting Bid $400
+55 Fender USA Jazz Bass w/ Original Hardshell Case Retail $2,000 Starting Bid $1,000
+56 Floyd Rose Redmond Series Electric Guitar w/ Hardshell Case Retail $1,000 Starting Bid $250
+57 Kala Archtop Ukulele Retail $500 Starting Bid $150
+58 New Guild T. Bird w/ P90 Pickups Retail $800 Starting Bid $250
+59 NOS Gold Tone MN-150 Long Neck Banjo Retail $940 Starting Bid $400
+60 New Ernie Ball Music Man Stingray w/ Hardshell Case Retail $2,000 Starting Bid $1,000
+61 1950's Keneko Maestro Tube Amp Retail $2,000 Starting Bid $500
+62 Rickenbacker 330 12 String w/ Jetglo Finish and Hardshell Case Retail $3,500 Starting Bid $1,500
+63 JHS Colour Box V2 w/ Original Box Retail $360 Starting Bid $150
+64 New PRS SE Swamp Ash CE 24 Sandblasted LTD Blue Retail $700 Starting Bid $350
+65 NOS VIntage USA500 12 String Electric Retail $950 Starting Bid $300
+66 Early 1940's Gibson Ultra Tone Lap Steel Retail $800 Starting Bid $500
+67 Bassman Clone Tube Combo Amplifier Retail $1,500 Starting Bid $500
+68 Eastman AC422CE w/ Hardshell Case Retail $1,700 Starting Bid $800
+69 Warm Audio Foxy Tone Box Fuzz Pedal Retail $100 Starting Bid $50
+70 Mid 1970's Guild M85 II Bluesbird Bass w/ Hardshell Case Retail $2,500 Starting Bid $1,200
+71 Maestro Solid State Echoplex EP-3 Retail $1,600 Starting Bid $700
+72 Fender Vibrolux Reverb Retail $2,200 Starting Bid $1,000
+73 Circa 1960's Kay N-3 Acoustic/Electric Archtop Retail $1,200 Starting Bid $400
+74 Epiphone Masterbilt Deluxe Retail $900 Starting Bid $300
+75 Fender Eric Johnson Signature Stratocaster w/ Case Retail $3,000 Starting Bid $1,500
+76 1940's Rickenbacker D-16 Doubleneck Lapsteel w/ Original Case Retail $3,000 Starting Bid $1,200
+77 Fender '62 Custom Shop Lime Green Strat Heavy Relic w/ Case Retail $4,500 Starting Bid $2,000
+78 Gibson SJ200 w/ Case *Previously Owned by Pat Green Retail $5,000 Starting Bid $2,000
+79 Taylor 916CE *Previously Owned by Christopher Cross Retail $5,000 Starting Bid $2,500
+80 Gibson '58 Custom Shop LP Standard 'Murphy Lab Aged' w/ Case Retail $7,000 Starting Bid $3,500
