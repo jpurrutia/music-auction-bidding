@@ -3,5 +3,6 @@
 3. Identify items that are overprices, underpriced, or have a good deal
 4. Calculate the optimal price for each item
 5. Create and update a readme as you iterate upon this and provide full documentation on key code and data components 
-6. run all commands in uv venv
+6. run all commands in uv venv - uv run python...
 7. If there are steps in the README.md, run them in the order that they are listed
+8. Ensure the CLI is the main way to run capabilities and analyze data, run things and do auction price analysis while a live auction is happening

@@ -16,23 +16,46 @@ This project analyzes music instrument auction data to identify optimal prices a
 - `data.txt` - Raw auction data with item descriptions, retail prices, and starting bids
 
 ### 2. Analysis Scripts
-- `auction_analyzer.py` - Basic pandas-based analyzer for quick analysis
-- `market_scraper.py` - Web scraping module for gathering market prices
+- `auction_analyzer.py` - Basic pandas-based analyzer for quick analysis with simulated data
+- `real_auction_analyzer.py` - Enhanced analyzer using real eBay market data to find optimal prices and deal scores
+- `market_scraper.py` - Web scraping module for gathering real-time market prices from eBay and other sources
 - `duckdb_analyzer.py` - Enhanced analyzer using DuckDB for efficient data processing and visualization
 
 ## How It Works
 
-1. **Data Parsing**: The system reads auction listings and extracts structured data
-2. **Market Research**: For each item, the system queries multiple sources to determine fair market value
-3. **Deal Scoring**: Each item receives a deal score based on the difference between starting bid and optimal price
-4. **Categorization**: Items are classified into deal quality tiers based on score and data confidence
-5. **Visualization**: Results are presented in both tabular and graphical formats
+1. **Data Parsing**: The system reads auction listings and extracts structured data from text files
+2. **Market Research**: For each item, the system queries multiple sources (primarily eBay) to determine fair market value
+3. **Deal Scoring**: Each item receives a deal score based on the starting bid compared to market median price
+4. **Optimal Bid Calculation**: Optimal bid prices are calculated based on market data, retail prices, and confidence levels
+5. **Categorization**: Items are classified as "good deal", "fair price", or "overpriced" based on deal score thresholds
+6. **Visualization**: Results are presented in visualizations and CSV reports with detailed market insights
 
 ## Market Price Research Methodology
 
-### Reverb API Integration
+### eBay Market Data Integration
 
-This system integrates with the [Reverb API](https://www.reverb.com/page/api) to fetch real-time market data for musical instruments. The process works as follows:
+This system primarily uses eBay sold listings data for real-time market analysis. The eBay scraping process works as follows:
+
+1. **Search Query Formation**:
+   - Item descriptions are cleaned and formatted for optimal eBay search results
+   - Non-essential words are filtered out to focus on key product identifiers
+   - Search is configured to only show "sold listings" to get actual market prices
+
+2. **Web Scraping & Pagination**:
+   - Requests simulate a browser with rotating user-agents to avoid detection
+   - Multiple pages are scraped (up to 5 by default) to gather sufficient data points
+   - Rate limiting is implemented to respect eBay's server constraints
+   - Results are cached locally to minimize redundant scraping
+
+3. **Data Extraction**:
+   - BeautifulSoup is used to parse HTML and extract listing prices, conditions, and dates
+   - Listing conditions are standardized into categories (Excellent, Good, Fair, Poor)
+   - Outliers beyond 2 standard deviations are filtered to improve data quality
+   - Statistical metrics are calculated (mean, median, min/max prices)
+
+### Reverb API Integration (Secondary)
+
+As a secondary source, the system can integrate with the [Reverb API](https://www.reverb.com/page/api) to fetch additional market data for musical instruments. The process works as follows:
 
 1. **Search Query Formation**:
    - The item description is cleaned and formatted for API compatibility
@@ -75,9 +98,29 @@ The system provides a confidence metric for market data reliability:
 
 ## Deal Scoring Logic
 
+### Deal Score Calculation
+
+The deal score is calculated as the ratio of starting bid to market median price:
+
+```python
+deal_score = starting_bid / market_median_price
+```
+
+A deal score below 1.0 indicates a potential good deal, with lower scores being better deals.
+
+### Item Classification
+
+Items are classified into three categories based on their deal scores:
+
+1. **Good Deal**: Score ≤ 0.85 (starting bid is at least 15% below market median)
+2. **Fair Price**: 0.85 < Score < 1.15 (starting bid is within 15% of market median)
+3. **Overpriced**: Score ≥ 1.15 (starting bid is at least 15% above market median)
+
+These thresholds are configurable via environment variables (DEAL_THRESHOLD and OVERPRICED_THRESHOLD).
+
 ### Optimal Price Calculation
 
-The system calculates an optimal price by weighing market data and retail prices, with the weighting dynamically adjusted based on data confidence:
+The system calculates an optimal bid price by weighing market data and retail prices, with the weighting dynamically adjusted based on data confidence:
 
 ```python
 # With high data confidence (many listings)
@@ -168,14 +211,25 @@ The market price data is cached to minimize API calls:
 
 ## Usage
 
-1. Ensure you have Python installed with the required dependencies:
-   ```
-   uv venv  # Creates virtual environment
-   source .venv/bin/activate  # Activate the environment
-   uv pip install -r requirements.txt
-   ```
+### Running the Real Auction Analyzer
 
-2. Run the analysis with the command-line interface:
+To analyze actual auction items with real eBay market data:
+
+```bash
+uv run python real_auction_analyzer.py --max-items 15 --random --refresh
+```
+
+Options:
+- `--max-items N`: Analyze at most N items (default: 15)
+- `--random`: Use random sampling instead of first N items
+- `--refresh`: Force refresh of cached market data
+
+Output:
+- Analysis results are saved to a timestamped folder in `cache/analysis/run_TIMESTAMP/`
+- Visualizations are generated showing deal scores, price comparisons, and savings percentages
+- A CSV report is created with detailed information for each item
+
+### Running the Basic Auction Analyzer with the command-line interface:
    ```
    python auction_cli.py --data-file data.txt summary
    ```
@@ -213,7 +267,9 @@ For each item, the system provides:
 
 - **Deal Score**: Percentage discount from optimal price
 - **Deal Rating**: Categorical assessment from "Exceptional Deal" to "Overpriced"
-- **Value Percentage**: Starting bid as a percentage of optimal price
+- **Savings Percentage**: (Market Price - Starting Bid) / Market Price * 100
+- **Listing Count**: Number of market listings found for confidence assessment
+- **Source**: Data source (ebay_scraped, ebay_api, reverb, sweetwater, or simulation)
 - **Retail-Market Gap**: How retail price compares to current market value
 
 ## Extending This Project
@@ -368,6 +424,95 @@ Detailed subtasks for immediate implementation:
 - [ ] Add condition-aware matching (Manual: 0.5 day | AI: 2 hours)
 - [ ] Implement price range filtering (Manual: 0.5 day | AI: 1 hour)
 - [ ] Create confidence scoring for search match quality (Manual: 0.5 day | AI: 3 hours)
+
+## Live Auction Guide
+
+### Quick Guide: Using the Auction Analysis Tool at a Live Auction
+
+Here's how to use your music auction bidding analyzer during a live auction to find great deals and make smart bidding decisions:
+
+### Before the Auction
+
+1. **Prepare your auction data file**:
+   - Create or update `data/auction_items.txt` with the auction catalog
+   - Format each item as: `[Lot #] [Item Description] Retail $[amount] Starting Bid $[amount]`
+
+2. **Pre-cache market data** (optional but recommended):
+   ```bash
+   uv run python auction_cli.py --analyzer real --max-items 100 summary
+   ```
+   This will fetch and cache eBay prices for all items, so you don't have to wait during the auction.
+
+### During the Auction
+
+#### Quick Deal Analysis
+
+For a fast overview of all auction items:
+
+```bash
+uv run python auction_cli.py --analyzer real summary
+```
+
+This will show:
+- Count and percentage of good deals, fair prices, and overpriced items
+- List of the best deals with savings percentages
+- List of most overpriced items to avoid
+
+#### Find Top Deals
+
+To see the best deals in the auction:
+
+```bash
+uv run python auction_cli.py --analyzer real top --count 10
+```
+
+This displays the top 10 deals ranked by deal score (lowest = best), showing market value, optimal bid price, and savings percentage for each.
+
+#### Filter by Instrument Type
+
+To focus on a specific category (like electric guitars):
+
+```bash
+uv run python auction_cli.py --analyzer real category "Electric Guitar"
+```
+
+Available categories include: "Electric Guitar", "Acoustic Guitar", "Bass Guitar", "Effects Pedal", "Percussion", etc.
+
+#### Quick Lot Number Lookup (During Live Auction)
+
+As the auctioneer calls out lot numbers, you can instantly analyze any specific item:
+
+```bash
+uv run python auction_cli.py --analyzer real item 7
+```
+
+This will give you a detailed analysis of lot #7, including:
+- Item description and category
+- Retail price, starting bid, and actual market value
+- **Optimal bid price** - the maximum you should bid
+- Deal score and savings percentage
+- A clear recommendation on whether to bid or skip
+
+### Live Auction Strategy
+
+1. **Identify priority items** before bidding starts using the `top` and `category` commands
+2. **Take notes** on your maximum bids based on the "optimal bid" values
+3. **Stay disciplined** and don't exceed your maximum bids, especially for overpriced items
+
+### Optimal Bidding
+
+The tool shows three key values for each item:
+- **Starting Bid**: The auction's opening bid price
+- **Market Value**: The true market value based on eBay sold listings
+- **Optimal Bid**: The recommended maximum bid (calculated based on market data and confidence)
+
+Follow the optimal bid recommendations to avoid overbidding while still having a good chance of winning items that represent real value.
+
+### Command Options
+
+- `--max-items 50`: Analyze up to 50 items (default is 15)
+- `--random`: Sample items randomly instead of using the first N items
+- `--refresh`: Force refresh cached market data (use if prices might have changed)
 - [ ] Add fallback search strategies for zero-result queries (Manual: 0.5 day | AI: 2 hours)
 
 #### Task 8: Brand/Model Recognition (Manual: 4-5 days | With AI: 1.5-2 days)
